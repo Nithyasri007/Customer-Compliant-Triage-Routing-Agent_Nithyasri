@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Acknowledgment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+        .priority-urgent { background-color: #dc3545; color: white; }
+        .priority-high { background-color: #fd7e14; color: white; }
+        .priority-medium { background-color: #ffc107; color: black; }
+        .priority-low { background-color: #28a745; color: white; }
+        
+        .complaint-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .complaint-info h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .info-value {
+            color: #6c757d;
+        }
+        
+        .response-time {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+            font-size: 14px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        .contact-info {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            .info-row {
+                flex-direction: column;
+            }
+            .info-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Customer Service Portal</div>
+            <h1>Complaint Acknowledgment</h1>
+        </div>
+        
+        <p>Dear {{ customer_name }},</p>
+        
+        <p>Thank you for contacting us regarding {{ category.lower() }}. We have received your message and want to assure you that we take all customer concerns seriously.</p>
+        
+        <div class="complaint-info">
+            <h3>📋 Complaint Details</h3>
+            <div class="info-row">
+                <span class="info-label">Reference Number:</span>
+                <span class="info-value">#{{ complaint_id }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Category:</span>
+                <span class="info-value">{{ category }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Priority:</span>
+                <span class="info-value">
+                    {{ priority }}
+                    <span class="priority-badge priority-{{ priority.lower() }}">{{ priority }}</span>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Assigned Team:</span>
+                <span class="info-value">{{ assigned_team }}</span>
+            </div>
+            {% if key_entities %}
+            <div class="info-row">
+                <span class="info-label">Key Details:</span>
+                <span class="info-value">
+                    {% if key_entities.order_number %}
+                        Order: {{ key_entities.order_number }}<br>
+                    {% endif %}
+                    {% if key_entities.amount %}
+                        Amount: {{ key_entities.amount }}<br>
+                    {% endif %}
+                    {% if key_entities.product_name %}
+                        Product: {{ key_entities.product_name }}
+                    {% endif %}
+                </span>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="response-time">
+            <strong>⏰ Expected Response Time:</strong>
+            {% if priority == 'Urgent' %}
+                We will respond to your inquiry <strong>within 2 hours</strong> during business hours.
+            {% elif priority == 'High' %}
+                We will respond to your inquiry <strong>within 4 hours</strong> during business hours.
+            {% elif priority == 'Medium' %}
+                We will respond to your inquiry <strong>within 24 hours</strong> during business hours.
+            {% else %}
+                We will respond to your inquiry <strong>within 48 hours</strong> during business hours.
+            {% endif %}
+        </div>
+        
+        <div class="contact-info">
+            <strong>📞 Need Immediate Assistance?</strong><br>
+            If you have any additional information or urgent concerns, please reply to this email or contact us directly.
+        </div>
+        
+        <p>Thank you for your patience and for choosing our services.</p>
+        
+        <p>Best regards,<br>
+        <strong>Customer Service Team</strong></p>
+        
+        <div class="footer">
+            <p>This is an automated acknowledgment. Please do not reply to this email directly.</p>
+            <p>© 2024 Customer Service Portal. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
